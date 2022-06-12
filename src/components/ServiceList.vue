@@ -3,8 +3,16 @@ import { ref, onMounted } from "vue";
 import { convertStatus } from "../js/Status";
 import { set_current_service } from "../js/Service";
 import type { ServiceInterface, RawServiceInterface } from "../js/Service";
-import { getServiceList, updateServiceList } from "../js/ServiceList";
-const services = getServiceList();
+import {
+  getServiceList,
+  setSearchRef,
+  updateServiceList,
+} from "../js/ServiceList";
+
+const search = ref("");
+
+setSearchRef(search);
+const serviceList = getServiceList;
 
 const click = (service: ServiceInterface) => {
   set_current_service(service);
@@ -23,7 +31,13 @@ onMounted(async () => {
     <div>
       <h3>Services</h3>
     </div>
-    <button @click="updateServiceList()">Refresh</button>
+    <button @click="refresh()">Refresh</button>
+    <div class="functionbar">
+      <div>
+        <input v-model="search" class="searchbar" placeholder="Search..." />
+      </div>
+    </div>
+
     <table class="tabledata">
       <thead>
         <tr>
@@ -33,9 +47,9 @@ onMounted(async () => {
         </tr>
       </thead>
       <tr
-        @click="set_current_service(service)"
+        @click="click(service)"
         class="tablerow"
-        v-for="service in services"
+        v-for="service in serviceList"
       >
         <td class="tableborder">{{ service.serviceDisplayName }}</td>
         <td class="tableborder">{{ service.serviceName }}</td>
@@ -49,6 +63,8 @@ table {
   text-align: left;
   position: relative;
   border-collapse: collapse;
+  max-height: 50%;
+  overflow-y: scroll;
 }
 th,
 td {
@@ -60,5 +76,14 @@ th {
   position: sticky;
   top: 0; /* Don't forget this, required for the stickiness */
   box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+}
+
+.functionbar {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.searchbar {
+  outline: none;
 }
 </style>
