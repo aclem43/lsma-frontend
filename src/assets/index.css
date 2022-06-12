@@ -1,40 +1,51 @@
 .service {
-	border: solid black 2px;
-	display: inline-block;
-	padding: 10px;
-	border-radius: 5px;
+  border: solid black 2px;
+  padding: 10px;
+  border-radius: 5px;
+  overflow-x: scroll;
+}
+
+.tabledata {
+  max-height: 100vh;
+  overflow-y: scroll;
 }
 
 .servicemanager {
-	border: solid black 2px;
-	text-align: center;
-	padding: 10px;
-	border-radius: 5px;
+  border: solid black 2px;
+  text-align: center;
+  border-radius: 5px;
 }
 
 .tablerow {
-	margin-top: 0px;
-	margin-bottom: 0px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.tablerow:hover {
+  background-color: lightgray;
 }
 
 .tablehead {
-	margin-bottom: 0px;
-	border: solid black 2px;
+  padding: 0px;
+  text-align: left;
+  width: 100%;
+  background-color: white;
+  width: 40%;
 }
 
 .tableborder {
-	border-right: solid black 2px;
-	padding: 5px;
+  border-right: solid black 2px;
+  padding: 5px;
 }
 
 .tablealign {
-	text-align: left;
+  text-align: left;
 }
 
 .flex {
-	display: flex;
+  display: flex;
 }
 
 .controller {
-	margin-left: 20px;
+  margin-left: 20px;
 }

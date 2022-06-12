@@ -1,15 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import ServiceList from "./components/ServiceList.vue";
 import ServiceManager from "./components/ServiceManager.vue";
 </script>
 
 <template>
-  <table class="main">
-    <tr>
-      <td><ServiceList></ServiceList></td>
-      <td><ServiceManager></ServiceManager></td>
-    </tr>
-  </table>
+  <div class="main">
+    <ServiceList />
+    <ServiceManager />
+  </div>
 </template>
 
 <style>
@@ -17,5 +15,7 @@ import ServiceManager from "./components/ServiceManager.vue";
 
 .main {
   width: 100%;
+  display: flex;
+  gap: 40px;
 }
 </style>

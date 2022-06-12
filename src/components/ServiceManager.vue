@@ -1,29 +1,41 @@
-<script setup>
-import { getServices } from "../js/Data.ts";
+<script setup lang="ts">
+import { get_current_service } from "../js/Service";
+const service = get_current_service();
 
-getServices();
+const action = (action: number) => {
+  fetch("/api/services/action", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      serviceName: service.value.serviceName,
+      action: action,
+    }),
+  });
+};
 </script>
 
 <template>
   <div class="servicemanager">
-    <h4>Current Service: {name}</h4>
+    <h4>Current Service: {{ service.serviceName }}</h4>
     <div class="flex">
       <table class="tablealign">
         <tr>
           <td>Status:</td>
-          <td>Running</td>
+          <td>{{ service.status }}</td>
         </tr>
         <tr>
           <td>Display Name:</td>
-          <td>{name}</td>
+          <td>{{ service.serviceDisplayName }}</td>
         </tr>
       </table>
       <div class="controller">
         <div>
-          <button>Start</button>
+          <button @click="action(1)">Start</button>
         </div>
         <div>
-          <button>Restart</button>
+          <button @click="action(0)">>Stop</button>
         </div>
       </div>
     </div>
