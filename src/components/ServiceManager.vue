@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { get_current_service } from "../js/Service";
+import { updateServiceList } from "../js/ServiceList";
+
 const service = get_current_service();
 
-const action = (action: number) => {
-  fetch("/api/services/action", {
+const action = async (action: number) => {
+  let raw_lite_service = await fetch("/api/services/action", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -13,6 +15,13 @@ const action = (action: number) => {
       action: action,
     }),
   });
+  let lite_service = await raw_lite_service.json();
+  service.value = {
+    serviceName: lite_service.serviceName,
+    status: lite_service.status,
+    serviceDisplayName: service.value.serviceDisplayName,
+  };
+  updateServiceList();
 };
 </script>
 
@@ -35,7 +44,7 @@ const action = (action: number) => {
           <button @click="action(1)">Start</button>
         </div>
         <div>
-          <button @click="action(0)">>Stop</button>
+          <button @click="action(0)">Stop</button>
         </div>
       </div>
     </div>

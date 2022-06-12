@@ -3,23 +3,18 @@ import { ref, onMounted } from "vue";
 import { convertStatus } from "../js/Status";
 import { set_current_service } from "../js/Service";
 import type { ServiceInterface, RawServiceInterface } from "../js/Service";
-const services = ref<Array<ServiceInterface>>([]);
+import { getServiceList, updateServiceList } from "../js/ServiceList";
+const services = getServiceList();
 
 const click = (service: ServiceInterface) => {
   set_current_service(service);
 };
+const refresh = () => {
+  updateServiceList();
+};
 
 onMounted(async () => {
-  const raw_data = await fetch("/api/services/");
-  const data: { services: Array<ServiceInterface> } = { services: [] };
-
-  (await raw_data.json()).services.forEach((service: RawServiceInterface) => {
-    data.services.push({
-      ...service,
-      status: convertStatus(service.status),
-    });
-  });
-  services.value = data.services;
+  updateServiceList();
 });
 </script>
 
@@ -28,6 +23,7 @@ onMounted(async () => {
     <div>
       <h3>Services</h3>
     </div>
+    <button @click="updateServiceList()">Refresh</button>
     <table class="tabledata">
       <thead>
         <tr>
