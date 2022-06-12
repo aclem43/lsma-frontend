@@ -1,7 +1,7 @@
 
 import { ref,computed } from "vue";
 import type { Ref } from "vue";
-import type { RawServiceInterface, ServiceInterface } from "./Service";
+import { get_current_service, set_current_service, type RawServiceInterface, type ServiceInterface } from "./Service";
 import { convertStatus } from "./Status";
 
 let serviceList:Ref<Array<ServiceInterface>> = ref([])
@@ -9,7 +9,6 @@ let searchref:Ref<string>;
 
 
 export const getServiceList = computed(() => {
-  console.log(searchref.value)
   if (searchref.value == "" || searchref.value == null || searchref.value == undefined){
     return serviceList.value
   }
@@ -17,10 +16,7 @@ export const getServiceList = computed(() => {
   let returnlist = []
 
   for (let service of serviceList.value){
-   
-    //console.log(service);
- 
-    
+
     if (service.serviceDisplayName.toLocaleLowerCase().includes(searchref.value.toLocaleLowerCase())){
       returnlist.push(service)
     }
@@ -42,6 +38,13 @@ export const updateServiceList = async() => {
     });
    
     serviceList.value = data.services;
+
+    const current_service = get_current_service()
+    for (let service of data.services){
+      if (service.serviceName == current_service.value.serviceName){
+        set_current_service(service)
+      }
+    }
 };
 
 export const setSearchRef = (searchRef:Ref<string>) => {  

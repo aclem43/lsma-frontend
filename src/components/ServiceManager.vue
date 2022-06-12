@@ -15,12 +15,7 @@ const action = async (action: number) => {
       action: action,
     }),
   });
-  let lite_service = await raw_lite_service.json();
-  service.value = {
-    serviceName: lite_service.serviceName,
-    status: lite_service.status,
-    serviceDisplayName: service.value.serviceDisplayName,
-  };
+
   updateServiceList();
 };
 </script>
