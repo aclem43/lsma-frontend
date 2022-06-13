@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { convertStatus } from "../js/Status";
 import { set_current_service } from "../js/Service";
 import type { ServiceInterface, RawServiceInterface } from "../js/Service";
 import {
+  getFilter,
   getServiceList,
+  setFilter,
   setSearchRef,
   updateServiceList,
 } from "../js/ServiceList";
+import Dropdown from "./Dropdown.vue";
 
 const search = ref("");
 
@@ -24,6 +26,13 @@ const refresh = () => {
 onMounted(async () => {
   updateServiceList();
 });
+
+const filter = getFilter();
+
+const dropdownOptions = [
+  { text: "Display Name", action: setFilter, param: "serviceDisplayName" },
+  { text: "Service Name", action: setFilter, param: "serviceName" },
+];
 </script>
 
 <template>
@@ -33,9 +42,10 @@ onMounted(async () => {
     </div>
     <button @click="refresh()">Refresh</button>
     <div class="functionbar">
-      <div>
-        <input v-model="search" class="searchbar" placeholder="Search..." />
-      </div>
+      <Dropdown :options="dropdownOptions">Filter</Dropdown>
+
+      <div>Filtering: {{ filter }}</div>
+      <input v-model="search" class="searchbar" placeholder="Search..." />
     </div>
 
     <table class="tabledata">
@@ -79,8 +89,9 @@ th {
 }
 
 .functionbar {
+  gap: 20px;
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
 }
 
 .searchbar {

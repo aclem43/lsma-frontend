@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { get_current_service } from "../js/Service";
 import { updateServiceList } from "../js/ServiceList";
+import Dropdown from "./Dropdown.vue";
 
 const service = get_current_service();
 

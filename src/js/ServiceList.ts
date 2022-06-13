@@ -6,7 +6,15 @@ import { convertStatus } from "./Status";
 
 let serviceList:Ref<Array<ServiceInterface>> = ref([])
 let searchref:Ref<string>;
+const filteref:Ref<string> = ref("serviceDisplayName");
 
+export const setFilter = (filter:string):void => {
+  filteref.value = filter;
+}
+
+export const getFilter = ():Ref<string> => {
+  return filteref;
+}
 
 export const getServiceList = computed(() => {
   if (searchref.value == "" || searchref.value == null || searchref.value == undefined){
@@ -17,7 +25,7 @@ export const getServiceList = computed(() => {
 
   for (let service of serviceList.value){
 
-    if (service.serviceDisplayName.toLocaleLowerCase().includes(searchref.value.toLocaleLowerCase())){
+    if (service[filteref.value].toLocaleLowerCase().includes(searchref.value.toLocaleLowerCase())){
       returnlist.push(service)
     }
    
